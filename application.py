@@ -94,15 +94,15 @@ st.pyplot(fig3)
 # calcule du salaire moyen par an
 #utilisez px.line
 #votre code 
+st.subheader("📈 Évolution des salaires pour les 10 postes les plus courants")
+
 top = df['job_title'].value_counts().nlargest(10).index
 df_top = df[df['job_title'].isin(top)]
 salaire_an = df_top.groupby(['job_title', 'work_year'])['salary_in_usd'].mean().reset_index()
 
-st.subheader("📈 Évolution des salaires pour les 10 postes les plus courants")
-
 fig4 = px.line(salaire_an,x='work_year',y='salary_in_usd', color='job_title', title='Évolution des salaires pour les 10 postes les plus courants',labels={'salary_in_usd': 'Salaire moyen (USD)', 'work_year': 'Année'},template="plotly_white")
 st.plotly_chart(fig4)
-
+st.write('on observe une chute generale des salaires en 2021, probablement a cause de developpement des IA, soit a cause du confinement, mais ils se retablissent rapidements.' )
 
 ### 7. Salaire médian par expérience et taille d'entreprise
 # utilisez median(), px.bar
@@ -113,7 +113,7 @@ df2 = df.groupby(['company_size', 'experience_level'])['salary_in_usd'].median()
 
 fig = px.bar(df2, title='somme des salaires médianes par expérience et taille d entreprise', x='company_size', y='salary_in_usd',color='experience_level')
 st.plotly_chart(fig)
-
+st.write('la lecture de ce graphique n est pas evidante, il faut comprendre que chaque barre est une somme mediannes des types de salaries (leurs experience), et il faut utiliser le fait que graphque est interactif pour observer les mediannes exactes pour tel ou tel classe.' )
 
 ### 8. Ajout de filtres dynamiques
 #Filtrer les données par salaire utilisant st.slider pour selectionner les plages 
@@ -148,6 +148,7 @@ stats = pd.DataFrame({ 'Télétravail 100%': salaire_stat,'Sans télétravail': 
 
 st.write(f"Statistiques des salaires pour {selection_pays}  :")
 st.write(stats)
+st.write('on observe que generalement, entre les pays, le salaire est plus haute pour ceux qui sont en presentielle.' )
 
 fig, ax = plt.subplots()
 ax.hist(df_pays['salary_in_usd'], bins=20, edgecolor='black')
@@ -155,7 +156,7 @@ ax.set_title(f"Distribution des salaires en télétravail pour {selection_pays}"
 ax.set_xlabel('Salaire en USD')
 ax.set_ylabel('Nombre d\'employés')
 st.pyplot(fig)
-
+st.write('Si on choisi un pay avec beaucoup de données, on peut observer quelquechose qui s approche a une distribution normale, en teletravail, il y a autant de plus de salariées, que leurs salaire s approche de la moyenne .' )
 ### 10. Filtrage avancé des données avec deux st.multiselect, un qui indique "Sélectionnez le niveau d'expérience" et l'autre "Sélectionnez la taille d'entreprise"
 #votre code 
 
@@ -176,3 +177,4 @@ if selection_taille:
     df_filtre = df_filtre[df_filtre['company_size'].isin(selection_taille)]
 
 st.dataframe(df_filtre)
+st.write(f'Voici les données filtrées, selon le niveau d\'expérience et la taille d\'entreprise, ici les filtres apliquées sont :  {selection_experience}, {selection_taille}')

@@ -118,15 +118,61 @@ st.plotly_chart(fig)
 ### 8. Ajout de filtres dynamiques
 #Filtrer les données par salaire utilisant st.slider pour selectionner les plages 
 #votre code 
+st.subheader("Filtres salaire")
 
+min_salary = 0
+max_salary = 500000
+selection_salaire = st.slider('Sélectionnez une plage de salaires (en USD)', min_value= min_salary, max_value=max_salary, value=(min_salary,max_salary))
+
+Salaire = df[(df['salary_in_usd'] >= selection_salaire[0]) & (df['salary_in_usd'] <= selection_salaire[1])]
+st.write(Salaire)
 
 
 
 ### 9.  Impact du télétravail sur le salaire selon le pays
 
+st.subheader("Impact du télétravail sur le salaire selon le pays")
+
+df_remote = df[df['remote_ratio'] == 100]
+df_sansremote = df[df['remote_ratio'] == 0]
+
+pays = df_remote['company_location'].unique()
+selection_pays = st.selectbox('Sélectionnez un pays', pays)
+df_pays = df_remote[df_remote['company_location'] == selection_pays]
+df_pays2 = df_sansremote[df_sansremote['company_location'] == selection_pays]
+
+salaire_stat = df_pays['salary_in_usd'].describe()
+salaire_stat2 = df_pays2['salary_in_usd'].describe()
+stats = pd.DataFrame({ 'Télétravail 100%': salaire_stat,'Sans télétravail': salaire_stat2 })
 
 
+st.write(f"Statistiques des salaires pour {selection_pays}  :")
+st.write(stats)
+
+fig, ax = plt.subplots()
+ax.hist(df_pays['salary_in_usd'], bins=20, edgecolor='black')
+ax.set_title(f"Distribution des salaires en télétravail pour {selection_pays}")
+ax.set_xlabel('Salaire en USD')
+ax.set_ylabel('Nombre d\'employés')
+st.pyplot(fig)
 
 ### 10. Filtrage avancé des données avec deux st.multiselect, un qui indique "Sélectionnez le niveau d'expérience" et l'autre "Sélectionnez la taille d'entreprise"
 #votre code 
 
+st.subheader(" Filtrage avancé des données sur le niveau d'experien et la taille de l'entreprise")
+
+niv_experience = df['experience_level'].unique()
+taille_company = df['company_size'].unique()
+
+selection_experience = st.multiselect( 'Sélectionnez le niveau d\'expérience', options=niv_experience)
+selection_taille = st.multiselect('Sélectionnez la taille d\'entreprise',options=taille_company )
+
+
+if selection_experience:
+    df_filtre = df[df['experience_level'].isin(selection_experience)]
+else:
+    df_filtre = df.copy()
+if selection_taille:
+    df_filtre = df_filtre[df_filtre['company_size'].isin(selection_taille)]
+
+st.dataframe(df_filtre)

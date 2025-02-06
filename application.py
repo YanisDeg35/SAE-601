@@ -159,7 +159,7 @@ st.pyplot(fig)
 ### 10. Filtrage avancé des données avec deux st.multiselect, un qui indique "Sélectionnez le niveau d'expérience" et l'autre "Sélectionnez la taille d'entreprise"
 #votre code 
 
-st.subheader(" Filtrage avancé des données sur le niveau d'experien et la taille de l'entreprise")
+st.subheader(" Filtrage avancé des données sur le niveau d'experience et la taille de l'entreprise")
 
 niv_experience = df['experience_level'].unique()
 taille_company = df['company_size'].unique()

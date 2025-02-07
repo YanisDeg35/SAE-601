@@ -13,3 +13,4 @@ print("Path to dataset files:", path)
 conda create -n projet python pandas numpy matplotlib jupyterlab kagglehub seaborn streamlit plotly
 
 
+Lien vers l'application share.streamlit : https://sae-601-pthbojjdky7yrfnmvs5skb.streamlit.app/

@@ -17,7 +17,7 @@ import streamlit as st
 import plotly.express as px
 
 # Chargement des données
-df = pd.read_csv(r"H:\IUT\SAE 601\ds_salaries.csv")
+df = pd.read_csv(r"ds_salaries.csv")
 
 st.sidebar.title("Navigation")
 page = st.sidebar.radio("Aller à", ["Question 2 Distribution Salaire", "Question 3 Distribution salaire par niveau d'expérience et rôle", "Question 4 Analyse des tendances de salaires", "Question 5 Corrélation entre variables", "Question 5 Analyse interactive des variations de salaire", "Question 7 Salaire médian par expérience et taille d'entreprise", "Question 8 Ajout de filtres dynamiques", "Question 9 Impact du teletravail sur le salaire selon le pays", "Question 10 Filtrage avancé des données"])
